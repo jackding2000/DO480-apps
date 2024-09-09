@@ -1,0 +1,33 @@
+kind: Kustomization
+
+bases:
+  - ../base
+
+patches:
+  - patch: |
+
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: mysql
+        labels:
+          app: todonodejs
+          name: mysql
+      spec:
+        replicas: 1
+        selector:
+          matchLabels:
+            app: todonodejs
+            name: mysql
+        template:
+          metadata:
+            labels:
+              app: todonodejs
+              name: mysql
+          spec:
+            containers:
+            - image: registry.redhat.io/rhel8/mysql-80:1-152
+              name: mysql
+              env:
+              - name: FOO
+                value: bar
